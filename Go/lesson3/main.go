@@ -82,10 +82,10 @@ func main() {
 	// task9(s9)
 	// fmt.Println(s9)
 
-	//10
-	s10 := make([]int, 4, 4)
-	task10(s10)
-	fmt.Println(s10, len(s10), cap(s10))
-	s10[0], s10[1], s10[2], s10[3] = 1,2,3,4 
+	// //10
+	// s10 := make([]int, 4, 4)
+	// task10(s10)
+	// fmt.Println(s10, len(s10), cap(s10))
+	// s10[0], s10[1], s10[2], s10[3] = 1,2,3,4 
 	
 }
