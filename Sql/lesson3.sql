@@ -1,0 +1,92 @@
+-- CREATE TABLE users(
+-- 	id SERIAL PRIMARY KEY,
+-- 	name TEXT NOT NULL
+-- );
+
+-- CREATE TABLE categories(
+-- 	id SERIAL PRIMARY KEY,
+-- 	title TEXT NOT NULL
+-- );
+-- CREATE TABLE orders(
+-- 	id SERIAL PRIMARY KEY,
+-- 	user_id INT NOT NULL REFERENCES users(id),
+-- 	created_at DATE NOT NULL DEFAULT CURRENT_DATE
+-- );
+-- CREATE TABLE products(
+-- 	id SERIAL PRIMARY KEY,
+-- 	title TEXT NOT NULL,
+-- 	price INT NOT NULL,
+-- 	category_id INT NOT NULL REFERENCES categories(id)
+-- );
+-- CREATE TABLE order_items(
+-- 	id SERIAL PRIMARY KEY,
+-- 	order_id INT NOT NULL REFERENCES orders(id),
+-- 	product_id INT NOT NULL REFERENCES products(id),
+-- 	qty INT NOT NULL CHECK (qty > 0)
+-- )
+
+-- INSERT INTO users (name)
+-- VALUES
+-- ('Platon'),
+-- ('Elmira'),
+-- ('Sayat');
+-- INSERT INTO categories (title) 
+-- VALUES
+-- ('Electronics'),
+-- ('Food'),
+-- ('Books');
+-- INSERT INTO products (title,price,category_id)
+-- VALUES 
+-- ('Headphones', 15000, 1),
+-- ('Keyboard', 22000, 1),
+-- ('Chocolate', 1000, 2),
+-- ('Base SQL', 7000, 3);
+-- INSERT INTO orders (user_id, created_at)
+-- VALUES
+-- (1, '2026-01-10'),
+-- (1, '2026-01-12'),
+-- (2, '2026-01-11');
+-- INSERT INTO order_items(order_id, product_id, qty)
+-- VALUES
+-- (1,1,1),
+-- (1,3,3),
+-- (2,4,1),
+-- (3,2,1);
+
+-- 1
+-- SELECT p.title AS product_title, p.price, c.title AS category_title
+-- FROM products p
+-- JOIN categories c ON c.id = category_id
+-- ORDER BY category_title, price DESC 
+
+-- 2
+-- SELECT o.id AS order_id, o.created_at
+-- FROM orders o
+-- JOIN users u ON u.id = user_id
+-- WHERE u.name = 'Platon'
+-- ORDER BY created_at ASC
+
+-- 3
+-- SELECT o.id AS order_id, u.name AS user_name, p.title AS product_title, oi.qty, (qty*price) AS line_sum
+-- FROM orders o
+-- JOIN users u ON u.id = user_id
+-- JOIN order_items oi ON o.id = order_id
+-- JOIN products p ON p.id = product_id
+-- ORDER BY order_id, product_title ASC
+
+-- 4
+-- SELECT o.id AS order_id, u.name AS user_name, SUM(qty*price) AS order_total
+-- FROM orders o
+-- JOIN users u ON u.id = user_id
+-- JOIN order_items oi ON o.id = order_id
+-- JOIN products p ON p.id = product_id
+-- GROUP BY o.id, u.name
+-- ORDER BY order_total DESC
+
+-- 5
+-- SELECT p.title AS product_title, c.title AS category_title
+-- FROM products p
+-- JOIN categories c ON c.id = category_id
+-- LEFT JOIN order_items oi ON p.id = product_id
+-- WHERE oi.id IS NULL
+
