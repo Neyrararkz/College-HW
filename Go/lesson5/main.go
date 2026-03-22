@@ -3,12 +3,12 @@ package main
 import "fmt"
 
 type Course struct {
-    Id    int
+    Id int
     Title string
     Price int
 }
 type Student struct {
-    Name    string
+    Name string
     Courses []Course
 }
 
@@ -21,7 +21,7 @@ func AddCourse(c Course) {
 
 func AddStudent(name string) {
 	students[name] = Student{
-		Name:    name,
+		Name: name,
 		Courses: []Course{},
 	}
 }
