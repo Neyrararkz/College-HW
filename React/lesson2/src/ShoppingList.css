@@ -1,0 +1,142 @@
+.shopping {
+  max-width: 520px;
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.10);
+  font-family: Arial, sans-serif;
+}
+
+.shopping h2 {
+  color: #000;
+  margin: 0 0 14px;
+  text-align: center;
+}
+
+.shopping-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+  color: #4b5563;
+  font-size: 14px;
+}
+
+.shopping-inputs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.shopping-inputs input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  outline: none;
+}
+
+.shopping-inputs input:focus {
+  border-color: #6366f1;
+}
+
+.shopping-inputs .title {
+  flex: 1;
+}
+
+.shopping-inputs .qty {
+  width: 90px;
+}
+
+.shopping-inputs button {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  background: #4f46e5;
+  color: #fff;
+  cursor: pointer;
+}
+
+.shopping-inputs button:hover {
+  background: #4338ca;
+}
+
+.shopping-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.shopping-filters button {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  color: #000;
+  cursor: pointer;
+}
+
+.shopping-filters button.active {
+  background: #eef2ff;
+  border-color: #6366f1;
+}
+
+.shopping-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.shopping-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
+}
+
+.shopping-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.shopping-title {
+  font-weight: 600;
+}
+
+.shopping-qty {
+  color: #6b7280;
+  font-size: 14px;
+  margin-left: 6px;
+}
+
+.done .shopping-title {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.done {
+  opacity: 0.85;
+}
+
+.shopping-actions button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 6px;
+  border-radius: 8px;
+  color: #000;
+}
+
+.shopping-actions button:hover {
+  background: #eef2ff;
+}
