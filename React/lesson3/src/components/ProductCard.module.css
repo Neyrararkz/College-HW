@@ -1,0 +1,52 @@
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: white;
+  padding: 12px 16px;
+  border-radius: 10px;
+
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.name {
+  font-weight: 600;
+  width: 150px;
+}
+
+.price {
+  width: 80px;
+  color: #555;
+}
+
+.qtyControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qtyControls button {
+  padding: 3px 8px;
+  border: none;
+  background: #eee;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.qtyControls button:hover {
+  background: #ddd;
+}
+
+.deleteBtn {
+  border: none;
+  background: #ff5252;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.deleteBtn:hover {
+  background: #e53935;
+}
