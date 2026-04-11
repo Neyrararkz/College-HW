@@ -1,0 +1,187 @@
+
+body.light {
+  background: #f5f7fb;
+  color: #222;
+}
+
+body.dark {
+  background: #1e1f26;
+  color: #f2f2f2;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 40px;
+  background: white;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+body.dark .header {
+  background: #2b2c34;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.logo-small {
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+
+.nav {
+  display: flex;
+  gap: 30px;
+}
+
+.nav a {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  font-size: 15px;
+}
+
+.nav a:hover {
+  color: #4f7cff;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+
+.search {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 30px 0;
+}
+
+.search input {
+  padding: 10px;
+  width: 250px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.search button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  background: #4f7cff;
+  color: white;
+  cursor: pointer;
+}
+
+.search button:hover {
+  background: #3d66e0;
+}
+
+.products-page {
+  padding: 40px;
+}
+
+.products-page h1 {
+  margin-bottom: 20px;
+}
+
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+
+.product-card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  transition: transform 0.2s;
+}
+
+body.dark .product-card {
+  background: #2b2c34;
+  border: 1px solid #444;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+}
+
+.product-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+}
+
+.product-card h3 {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.product-card p {
+  font-size: 13px;
+  color: gray;
+}
+
+body.dark .product-card p {
+  color: #bbb;
+}
+
+.price {
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.product-card button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: #4f7cff;
+  color: white;
+  cursor: pointer;
+}
+
+.product-card button:hover {
+  background: #3d66e0;
+}
+
+
+
+.toggle-button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+
+body.light .toggle-button {
+  background: #ffffff;
+  color: #333;
+}
+
+body.light .toggle-button:hover {
+  background: #f0f0f0;
+}
+
+
+body.dark .toggle-button {
+  background: none;
+  color: #fff;
+  border: 1px solid #666;
+}
+
+body.dark .toggle-button:hover {
+  background: #555;
+}
