@@ -1,20 +1,27 @@
-package db
+package config
 
 import (
 	"database/sql"
+	"fmt"
+	"log"
 	_ "github.com/lib/pq"
 )
 
 var DB *sql.DB
 
-func InitDB() {
-
-	connStr := "host=localhost port=5432 user=postgres password=1710 dbname=library sslmode=disable"
-
-	db, err := sql.Open("postgres", connStr)
+func ConnectDatabase() {
+	connStr := "host=localhost port=5432 user=postgres password=1234 dbname=library sslmode=disable"
+	
+	var err error
+	DB, err = sql.Open("postgres", connStr)
 	if err != nil {
-		panic(err)
+		log.Fatal("Ошибка подключения к БД:", err)
 	}
 
-	DB = db
+	err = DB.Ping()
+	if err != nil {
+		log.Fatal("БД недоступна:", err)
+	}
+
+	fmt.Println("Успешное подключение к базе данных!")
 }
