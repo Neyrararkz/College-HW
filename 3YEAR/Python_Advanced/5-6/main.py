@@ -1,37 +1,51 @@
 from user import Librarian, Reader, PremiumReader
+import json
 
-users = []
+DATA_FILE = "3YEAR/Python_Advanced/5-6/data.json"
 
-stand = Reader("st", "1234")
-prem = PremiumReader("pr", "1234")
-lib = Librarian("li", "1234")
-users.append(stand)
-users.append(prem)
-users.append(lib)
+# JSON
 
-books_catalog = [
-    {
-        "title": "The Hunger Games",
-        "author": "Suzanne Collins",
-        "year": 2008
-    },    
-    {
-        "title": "The Maze Runner",
-        "author": "James Dashner",
-        "year": 2009
-    },       
-    {
-        "title": "Dune",
-        "author": "Frank Herbert",
-        "year": 1965
-    },    
-    {
-        "title": "Harry Potter",
-        "author": "J.K. Rowling",
-        "year": 1997
-    }
-]
+def user_from_dict(data):
+    role = data["role"]
+    if role == "librarian":
+        return Librarian(data["username"], data["password"])
+    elif role == "reader":
+        return Reader(data["username"], data["password"], data["books_list"], data["status"])
+    elif role == "premium":
+        return PremiumReader(data["username"], data["password"], data["books_list"], data["status"], data["story"])
+
+def load_data():
+    try:
+        with open(DATA_FILE, "r", encoding="utf-8") as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        return [], []
+    except json.JSONDecodeError:
+        print("\nФайл данных повреждён. Программа начнёт с пустыми данными.")
+        return [], []
+
+    loaded_users = []
+    for user_data in data.get("users", []):
+        user = user_from_dict(user_data)
+        if user:
+            loaded_users.append(user)
+    return loaded_users, data.get("books_catalog", [])
+
+def save_data():
+    users_data = []
+    for user in users:
+        users_data.append(user.to_dict())
+    data = {"users": users_data, "books_catalog": books_catalog}
+    with open(DATA_FILE, "w", encoding="utf-8") as file:
+        json.dump(data, file, ensure_ascii=False, indent=4)
+
+users, books_catalog = load_data()
+
 books_onhand = []
+for user in users:
+    if isinstance(user, Reader):
+        for book in user.books_list:
+            books_onhand.append(book)
 
 # Регистрация & Авторизация: функции
 
@@ -75,7 +89,7 @@ def show_books_catalog():
         print("\nКаталог:")
         count = 1
         for book in books_catalog:
-            print(f"{count}. «{book["title"]}»: {book["author"]}, {book["year"]}")
+            print(f"{count}. «{book['title']}»: {book['author']}, {book['year']}")
             count += 1
     else:
         print("\nКаталог пуст.")
@@ -84,25 +98,25 @@ def take_book(account, index):
     if index < 0 or index >= len(books_catalog):
         print("\nКнига не найдена.")
         return
-    book_title = books_catalog[index]["title"]
+    book_title = books_catalog[index]['title']
     print(f"\nВы успешно взяли книгу: «{book_title}»")
     account.books_list.append(books_catalog[index])
     books_onhand.append(books_catalog[index])
     books_catalog.pop(index)
-    account.status = "читает"
+    account.set_status("читает")
     return book_title
 
 def return_book(account, index):
     if index < 0 or index >= len(account.books_list):
         print("\nКнига не найдена.")
         return
-    book_title = account.books_list[index]["title"]
+    book_title = account.books_list[index]['title']
     print(f"\nВы успешно вернули книгу: «{book_title}»")
     books_catalog.append(account.books_list[index])
     books_onhand.remove(account.books_list[index])
     account.books_list.pop(index)
     if len(account.books_list) == 0:
-        account.status = "не читает"
+        account.set_status("не читает")
     return book_title
 
 # Меню: функции библиотекаря
@@ -112,7 +126,7 @@ def show_books_onhand():
         print("\nВыданные книги:")
         count = 1
         for book in books_onhand:
-            print(f"{count}. «{book["title"]}»: {book["author"]}, {book["year"]}")
+            print(f"{count}. «{book['title']}»: {book['author']}, {book['year']}")
             count += 1
     else:
         print("\nНет выданных книг.")
@@ -131,7 +145,7 @@ def show_users():
                 if user.books_list:
                     c = 1
                     for book in user.books_list:
-                        print(f"\t{c}) «{book["title"]}»: {book["author"]}, {book["year"]}")
+                        print(f"\t{c}) «{book['title']}»: {book['author']}, {book['year']}")
                         c += 1
                 else:
                     print("\tНет книг на руках.")
@@ -139,25 +153,66 @@ def show_users():
     else:
         print("\nНет зарегистрированных пользователей")
 
+def validate_book(title, author, year):
+    if title.strip() == "":
+            print("\nНазвание не может быть пустым.")
+            return
+    for book in books_catalog:
+        if book['title'] == title:
+            print("\nЭта книга уже добавлена.")
+            return
+    for book in books_onhand:
+            if book['title'] == title:
+                print("\nЭта книга уже добавлена.")
+                return
+    if author.strip() == "":
+                print("\nАвтор не может быть пустым.")
+                return
+    if year <= 0 or year > 2026:
+        print("\nНекорректный год.")
+        return
+    return True
+
+def add_book(title, author, year):
+    books_catalog.append({'title': title, 'author': author, 'year': year})
+    print("\nКнига успешно добавлена в каталог.")
+
+def delete_book(index):
+    if index < 0 or index >= len(books_catalog):
+        print("\nКнига не найдена.")
+
+        return
+    books_catalog.pop(index)
+    print("\nКнига успешно удалена из каталога.")
+    
+
 # Меню: цикл
 def main(account):
     while True:
         if isinstance(account, Reader):
-            print("\nМеню:\n1. Каталог книг\n2. Взять книгу\n3. Вернуть книгу\n4. Моя информация\n5. Моя история\n6. Очистить историю\n0. Выход")
+            print("\nМеню:\n1. Каталог книг\n2. Взять книгу\n3. Вернуть книгу\n4. Моя информация\n5. Моя история\n6. Очистить историю\n0. Выйти из аккаунта")
             choice = input("→ ")
 
             match choice:
                 case "1":
                     show_books_catalog()
                 case "2":
-                    index = int(input("Номер книги, которую вы хотите взять: ")) - 1              
+                    try:
+                        index = int(input("Номер книги, которую вы хотите взять: ")) - 1
+                    except ValueError:
+                        print("\nНекорректный номер.")
+                        continue                    
                     book_title = take_book(account, index)
-                    if isinstance(account, PremiumReader):
+                    if book_title and isinstance(account, PremiumReader):
                         account.story.append({"action": "Взяли книгу", "book_title": book_title})
                 case "3":                     
-                    index = int(input("Номер книги, которую вы хотите вернуть: ")) - 1                    
+                    try:
+                        index = int(input("Номер книги, которую вы хотите вернуть: ")) - 1
+                    except ValueError:
+                        print("\nНекорректный номер.")
+                        continue               
                     book_title = return_book(account, index)
-                    if isinstance(account, PremiumReader):
+                    if book_title and isinstance(account, PremiumReader):
                         account.story.append({"action": "Вернули книгу", "book_title": book_title})
                 case "4":
                     account.show_info()
@@ -177,13 +232,13 @@ def main(account):
                         print("История успешно очищена.")
                     continue
                 case "0":
-                    print("До встречи!")
+                    print("\nДо встречи!")
                     break
                 case _:
-                    print("Неккоректный ввод. Повторите попытку.")
+                    print("\nНеккоректный ввод. Повторите попытку.")
 
         else:
-            print("\nМеню:\n1. Каталог книг\n2. Книги на руках\n3. Пользователи\n4. Моя информация\n\n0. Выход")
+            print("\nМеню:\n1. Каталог книг\n2. Книги на руках\n3. Пользователи\n4. Добавить книгу в каталог\n5. Убрать книгу из каталога\n6. Моя информация\n0. Выйти из аккаунта")
             choice = input("→ ")
 
             match choice:
@@ -193,20 +248,37 @@ def main(account):
                     show_books_onhand()
                 case "3":
                     show_users()
-                # case "4":
+                case "4":
+                    title = input("Название: ")
+                    author = input("Автор: ")
+                    try:
+                        year = int(input("Год: "))
+                    except ValueError:
+                        print("\nНекорректный год.")   
+                        continue  
+                    if not validate_book(title, author, year):
+                        continue
+                    add_book(title, author, year)
                 case "5":
+                    try:                        
+                        index = int(input("Номер книги, которую вы хотите убрать из каталога: ")) - 1
+                    except ValueError:
+                        print("\nНекорректный номер.")
+                        continue               
+                    delete_book(index)
+                case "6":
                     account.show_info()
                 case "0":
-                    print("До встречи!")
+                    print("\nДо встречи!")
                     break
                 case _:
-                    print("Неккоректный ввод. Повторите попытку.")
+                    print("\nНеккоректный ввод. Повторите попытку.")
 
 
 # Регистрация & Авторизация: цикл
 
 while True:
-    print("\n1. Зарегестрироваться\n2. Войти\n0. Выйти")
+    print("\n1. Зарегистрироваться\n2. Войти\n0. Завершить программу")
     choice = input("→ ")
 
     match choice:
@@ -219,6 +291,7 @@ while True:
                 continue
             if register(type, username, password):
                 print(f"\nРегистрация прошла успешно! Добро пожаловать, {username}!")
+                save_data()
         case "2":
             username = input("Имя пользователя: ")
             password = input("Пароль: ")
@@ -228,8 +301,10 @@ while True:
                 continue
             print(f"\nВход выполнен успешно. С возвращением, {username}!")
             main(account)
+            save_data()
         case "0":
             print("До встречи!")
+            save_data()
             break
         case _:
             print("Некорректный ввод. Повторите попытку.")

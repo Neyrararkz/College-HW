@@ -1,0 +1,61 @@
+{
+    "users": [
+        {
+            "username": "Librarian",
+            "password": "1234",
+            "role": "librarian"
+        },
+        {
+            "username": "Reader",
+            "password": "1234",
+            "role": "reader",
+            "books_list": [
+                {
+                    "title": "Dune",
+                    "author": "Frank Herbert",
+                    "year": 1965
+                },
+                {
+                    "title": "The Hunger Games",
+                    "author": "Suzanne Collins",
+                    "year": 2008
+                }
+            ],
+            "status": "читает"
+        },
+        {
+            "username": "PremiumReader",
+            "password": "1234",
+            "role": "premium",
+            "books_list": [
+                {
+                    "title": "Harry Potter",
+                    "author": "J.K. Rowling",
+                    "year": 1997
+                }
+            ],
+            "status": "читает",
+            "story": [
+                {
+                    "action": "Взяли книгу",
+                    "book_title": "The Maze Runner"
+                },
+                {
+                    "action": "Вернули книгу",
+                    "book_title": "The Maze Runner"
+                },
+                {
+                    "action": "Взяли книгу",
+                    "book_title": "Harry Potter"
+                }
+            ]
+        }
+    ],
+    "books_catalog": [
+        {
+            "title": "The Maze Runner",
+            "author": "James Dashner",
+            "year": 2009
+        }
+    ]
+}
