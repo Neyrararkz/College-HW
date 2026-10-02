@@ -1,0 +1,24 @@
+[
+    {
+        "method": "CreditCard",
+        "amount": 1000,
+        "balance": 99000,
+        "time": "08:37:24"
+    },
+    {
+        "method": "PayPal",
+        "amount": 1000,
+        "time": "08:37:24"
+    },
+    {
+        "method": "CreditCard",
+        "amount": 500,
+        "balance": 98500,
+        "time": "08:37:25"
+    },
+    {
+        "method": "PayPal",
+        "amount": 500,
+        "time": "08:37:25"
+    }
+]
